@@ -1,6 +1,6 @@
 use clap::Parser;
 use cli_table::{format, print_stdout, Cell, Table};
-use std::fs;
+use std::{fs, slice::SliceIndex};
 
 #[derive(Parser, Debug)]
 #[command(version, long_about = None)]
@@ -23,14 +23,23 @@ fn main() {
         return;
     };
     let contents = fs::read_to_string(&file_path).expect("E: {args.file} - Perission denied.");
-    // let table = vec![].table().title(vec!["File:".cell()]);
     if args.quiet {
         println!("{contents}");
     } else {
         let sliced_content = contents.lines();
+        let line_number: u16 = 1;
+        let each_line = vec![];
+        for content in sliced_content {
+            let temporary_vector = vec![line_number.cell()];
+            temporary_vector.push(sliced_content.next());
+            // sliced_content.next();
+            line_number += 1;
+            each_line.push(temporary_vector);
+        }
         let table = vec![
-            vec!["h".cell(), "h".cell()],
-            vec!["stp".cell(), "wwd".cell()],
+            // vec!["h".cell(), "h".cell()],
+            // vec!["stp".cell(), "wwd".cell()],
+
         ]
         .table()
         .title(vec![
